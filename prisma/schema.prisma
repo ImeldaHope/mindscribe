@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String     @id @default(uuid())
+  name       String
+  email      String     @unique
+  password   String
+  avatar     String
+  entries    Entry[]  
+  customCategories CustomCategory[]  // A user can create multiple custom categories
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id       String   @id @default(uuid())
+  name     String   @unique  
+  entries  Entry[]  // A category can have multiple entries
+}
+
+model CustomCategory {
+  id       String   @id @default(uuid())
+  name     String
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entries  Entry[]  // A category can have multiple entries
+
+  @@unique([name, userId])
+}
+
+model Entry {
+  id         String   @id @default(uuid())
+  title      String
+  content    String
+  mood      Mood?
+  tags      Tag[]    @relation("EntryTags")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  customCategoryId String?
+  customCategory   CustomCategory? @relation(fields: [customCategoryId], references: [id])
+  
+}
+
+model Tag {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  entries   Entry[] @relation("EntryTags") 
+}
+
+enum Mood {
+  HAPPY
+  SAD
+  ANXIOUS
+  CALM
+  EXCITED
+  TIRED
+}
