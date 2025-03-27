@@ -8,39 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useUserEntryCategory } from "@/hooks/user";
+import { useUserEntries } from "@/hooks/user-entries";
 import { PenLine, Search, Plus, ListFilter, Calendar } from "lucide-react";
 
-const entries = [
-  {
-    id: 1,
-    title: "Morning Reflections",
-    content:
-      "Today started with a beautiful sunrise. The sky was painted in hues of orange and pink, reminding me of the simple beauty in everyday moments. I spent some time meditating and setting intentions for the day ahead.",
-    date: "2024-03-26",
-    category: "Personal",
-    mood: "Peaceful",
-  },
-  {
-    id: 2,
-    title: "Project Breakthrough",
-    content:
-      "Finally solved that challenging bug that's been haunting our team for weeks. The solution was surprisingly simple once we approached the problem from a different angle. It's amazing how a fresh perspective can make all the difference.",
-    date: "2024-03-25",
-    category: "Work",
-    mood: "Accomplished",
-  },
-  {
-    id: 3,
-    title: "Travel Plans",
-    content:
-      "Started planning for the summer vacation. Looking at destinations in Europe, particularly interested in visiting the Mediterranean coast. The idea of exploring ancient ruins and enjoying local cuisine is incredibly exciting.",
-    date: "2024-03-24",
-    category: "Travel",
-    mood: "Excited",
-  },
-];
 
 export default function Journal() {
+  const { userId } = useUserEntryCategory();
+    const { data: entries } = useUserEntries(userId);
   return (
     <div className="hidden flex-col md:flex min-h-screen gradient-bg">
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -66,12 +41,14 @@ export default function Journal() {
           </TabsList>
           <TabsContent value="all" className="space-y-4">
             <div className="grid gap-4">
-              {entries.map((entry,idx) => (
+              {entries?.map((entry, idx) => (
                 <div key={idx} className="grid gap-4">
                   <JournalEntries
                     title={entry.title}
                     excerpt={entry.content}
-                    created_at={new Date(entry.date)}
+                    createdAt={
+                      entry.createdAt ? new Date(entry.createdAt) : new Date()
+                    }
                     category={entry.category}
                     mood={entry.mood}
                   />
