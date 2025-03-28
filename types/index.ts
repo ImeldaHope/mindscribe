@@ -23,14 +23,11 @@ export interface Entry {
   title: string;
   content: string;
   mood?: Mood;
-  tags: Tag[];
+  // tags: Tag[];
   createdAt: Date;
-  updatedAt: Date;
-  userId: string;
-  user: User;
-  categoryId: string;
-  category: Category;
-  excerpt: string;
+  updatedAt: Date;  
+  // categoryId: string;
+  category: Category;  
 }
 
 export interface Tag {
@@ -62,13 +59,6 @@ export interface Attachment {
   journal_entry_id: string;
   file_url: string;
   file_type: string;
-  created_at: Date;
-}
-
-export interface Summary {
-  id: string;
-  user_id: string;
-  data: Record<string, any>;
   created_at: Date;
 }
 
