@@ -11,37 +11,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { JournalEntries} from "./journal-entries";
+import { JournalEntries } from "./journal-entries";
+import { Entry } from "@/types";
 
-// Mock data for search results
-const mockEntries = [
-  {
-    title: "Morning Reflections",
-    excerpt: "Today started with a beautiful sunrise...",
-    date: "2024-03-21",
-    category: "Personal",
-    mood: "Peaceful",
-  },
-  {
-    title: "Project Breakthrough",
-    excerpt: "Finally solved that challenging problem at work...",
-    date: "2024-03-20",
-    category: "Work",
-    mood: "Excited",
-  },
-];
-
-export function SearchDialog() {
+export function SearchDialog({entries}: {entries: Entry[]}) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [results, setResults] = useState(mockEntries);
+  const [results, setResults] = useState(entries);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     // Filter mock entries based on search query
-    const filtered = mockEntries.filter(
+    const filtered = entries.filter(
       (entry) =>
         entry.title.toLowerCase().includes(query.toLowerCase()) ||
-        entry.excerpt.toLowerCase().includes(query.toLowerCase())
+        entry.content.toLowerCase().includes(query.toLowerCase())
     );
     setResults(filtered);
   };
