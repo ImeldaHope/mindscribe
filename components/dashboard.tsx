@@ -10,7 +10,7 @@ import { InteractivePieChart } from "./activity-chart";
 import { useUserEntries } from "@/hooks/user-entries";
 import { useUserEntryCategory } from "@/hooks/user";
 import useJournalStats from "@/hooks/analysis";
-import { Summary, Entry } from "@/types";
+import { Summary} from "@/types";
 
 export default function Dashboard() {
   const { userId } = useUserEntryCategory();
@@ -29,7 +29,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-between space-y-2 mb-8">
         <h2 className="text-3xl font-bold tracking-tight">Overview</h2>
         <div className="flex items-center space-x-2">
-          <SearchDialog />
+          <SearchDialog entries={entries || []} />
           <NewEntryDialog />
         </div>
       </div>
