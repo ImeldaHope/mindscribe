@@ -12,7 +12,7 @@ import { Entry } from "@/types";
 
 export function JournalEntries({
   title,
-  excerpt,
+  content,
   createdAt: date,
   category,
   mood,
@@ -28,7 +28,7 @@ export function JournalEntries({
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-muted-foreground line-clamp-2">{excerpt}</p>
+        <p className="text-muted-foreground line-clamp-2">{content}</p>
       </CardContent>
       <CardFooter className="flex gap-2">
         {/* <Badge variant="secondary">{category.name}</Badge> */}
