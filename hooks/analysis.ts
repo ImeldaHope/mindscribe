@@ -1,15 +1,16 @@
 "use client";
+import { Entry } from "@/types";
 import { useMemo } from "react";
 
 
 
-const useJournalStats = (entries) => {
+const useJournalStats = (entries: Entry[]) => {
   return useMemo(() => {
     if (!entries || entries.length === 0) {
       return {
         totalEntries: 0,
         writingStreak: 0,
-        averageWordsPerEntry: "0.00",
+        averageWordsPerEntry: 0.00,
         numberOfCategories: 0,
       };
     }
@@ -24,13 +25,13 @@ const useJournalStats = (entries) => {
 
     let writingStreak = 1;
     const sortedEntries = [...entries].sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
 
     for (let i = 1; i < sortedEntries.length; i++) {
-      const prevDate = new Date(sortedEntries[i - 1].date);
-      const currDate = new Date(sortedEntries[i].date);
-      const diff = (prevDate - currDate) / (1000 * 60 * 60 * 24);
+      const prevDate = new Date(sortedEntries[i - 1].createdAt);
+      const currDate = new Date(sortedEntries[i].createdAt);
+      const diff = (prevDate.getTime() - currDate.getTime()) / (1000 * 60 * 60 * 24);
 
       if (diff === 1) {
         writingStreak++;
@@ -42,7 +43,7 @@ const useJournalStats = (entries) => {
     return {
       totalEntries,
       writingStreak,
-      averageWordsPerEntry: averageWordsPerEntry.toFixed(2),
+      averageWordsPerEntry: parseFloat(averageWordsPerEntry.toFixed(2)),
       numberOfCategories,
     };
   }, [entries]);
