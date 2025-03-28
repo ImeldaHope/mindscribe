@@ -15,11 +15,11 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-
-interface DateRange {
-  from: Date | undefined;
-  to: Date | undefined;
-}
+import { DateRange } from "react-day-picker";
+// interface DateRange {
+//   from: Date | undefined;
+//   to: Date | undefined;
+// }
 
 export function DateFilterDialog() {
   const [date, setDate] = useState<DateRange>({
