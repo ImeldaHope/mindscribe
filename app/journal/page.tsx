@@ -4,13 +4,11 @@ import { DateFilterDialog } from "@/components/date-filter";
 import { JournalEntries } from "@/components/journal-entries";
 import NewEntryDialog from "@/components/new-entry-form";
 import { SearchDialog } from "@/components/search";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserEntryCategory } from "@/hooks/user";
 import { useUserEntries } from "@/hooks/user-entries";
-import { PenLine, Search, Plus, ListFilter, Calendar } from "lucide-react";
+import { PenLine} from "lucide-react";
 
 
 export default function Journal() {
@@ -44,11 +42,14 @@ export default function Journal() {
               {entries?.map((entry, idx) => (
                 <div key={idx} className="grid gap-4">
                   <JournalEntries
+                    id={entry.id}
                     title={entry.title}
-                    excerpt={entry.content}
+                    content={entry.content}
                     createdAt={
                       entry.createdAt ? new Date(entry.createdAt) : new Date()
                     }
+                    updatedAt={
+                      entry.updatedAt ? new Date(entry.updatedAt) : new Date()}
                     category={entry.category}
                     mood={entry.mood}
                   />
