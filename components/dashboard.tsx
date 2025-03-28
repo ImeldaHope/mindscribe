@@ -10,18 +10,20 @@ import { InteractivePieChart } from "./activity-chart";
 import { useUserEntries } from "@/hooks/user-entries";
 import { useUserEntryCategory } from "@/hooks/user";
 import useJournalStats from "@/hooks/analysis";
-import { Summary } from "@/types";
+import { Summary, Entry } from "@/types";
 
 export default function Dashboard() {
   const { userId } = useUserEntryCategory();
   const { data: entries } = useUserEntries(userId);
+
     const {
       totalEntries,
       writingStreak,
       averageWordsPerEntry,
       numberOfCategories,
-    }: Summary = useJournalStats(entries);
+    }: Summary = useJournalStats(entries || []);
   
+ 
   return (
     <div>
       <div className="flex items-center justify-between space-y-2 mb-8">
@@ -40,12 +42,13 @@ export default function Dashboard() {
             {entries?.slice(0,5).map((entry) => (
               <JournalEntries
                 key={entry.id}
+                id={entry.id}
                 title={entry.title}
-                excerpt={entry.content}
+                content={entry.content}
                 createdAt={entry.createdAt ? new Date(entry.createdAt) : new Date()}
+                updatedAt={entry.updatedAt ? new Date(entry.updatedAt) : new Date()}
                 category={entry.category}
-                mood={entry.mood}
-              />
+                mood={entry.mood} />
             ))}
           </div>
         </div>
