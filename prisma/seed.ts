@@ -72,10 +72,15 @@ async function main() {
 
     await Promise.all(
       Array.from({ length: numEntries }).map(async () => {
-        const useDefaultCategory = Math.random() > 0.5;
-        const category = useDefaultCategory
+        let useDefaultCategory = Math.random() > 0.5;
+        let category = useDefaultCategory
           ? faker.helpers.arrayElement(defaultCategories)
-          : customCategories.find((c) => c.userId === user.id) || null;
+          : customCategories.flat().find((c) => c.userId === user.id) || null;
+
+        if (!category) {
+          category = faker.helpers.arrayElement(defaultCategories);
+          useDefaultCategory = true;
+        }
 
           const numTags = faker.number.int({ min: 1, max: 3 });
           const tags = await Promise.all(
@@ -102,7 +107,7 @@ async function main() {
               "TIRED",
             ]),
             userId: user.id,
-            categoryId: useDefaultCategory ? category.id : null,
+            categoryId: useDefaultCategory ? category?.id : null,
             customCategoryId:
               !useDefaultCategory && category ? category.id : null,
             tags: {
