@@ -2,10 +2,19 @@
 
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker } from "react-day-picker"
-
+import { DayPicker, DayPickerProps } from "react-day-picker"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+
+const IconLeft: React.FC<React.SVGProps<SVGSVGElement>> = ({
+  className,
+  ...props
+}) => <ChevronLeft className={cn("size-4", className)} {...props} />;
+
+const IconRight: React.FC<React.SVGProps<SVGSVGElement>> = ({
+  className,
+  ...props
+}) => <ChevronRight className={cn("size-4", className)} {...props} />;
 
 function Calendar({
   className,
@@ -59,17 +68,23 @@ function Calendar({
         day_hidden: "invisible",
         ...classNames,
       }}
-      components={{
-        IconLeft: ({ className, ...props }) => (
-          <ChevronLeft className={cn("size-4", className)} {...props} />
-        ),
-        IconRight: ({ className, ...props }) => (
-          <ChevronRight className={cn("size-4", className)} {...props} />
-        ),
-      }}
+      // components={{
+      //   IconLeft: ({ className, ...props }) => (
+      //     <ChevronLeft className={cn("size-4", className)} {...props} />
+      //   ),
+      //   IconRight: ({ className, ...props }) => (
+      //     <ChevronRight className={cn("size-4", className)} {...props} />
+      //   ),
+      // }}
+      components={
+        {
+          IconLeft,
+          IconRight,
+        } as Partial<DayPickerProps["components"]>
+      }
       {...props}
     />
-  )
+  );
 }
 
 export { Calendar }
